@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 import dashboardRouter from './routes/dashboard';
 import BlockSubscriber from './services/zeromq';
 
@@ -21,10 +22,16 @@ server.use(
 
 new BlockSubscriber(ZMQ_HASH_BLOCK_URL);
 
+server.use(express.static(path.join(__dirname, '../../client/dist')));
+
+server.get('/health', (_req: Request, res: Response) => {
+  res.send('OK');
+});
+
 server.use('/dashboard', dashboardRouter);
 
-server.get('/', (_req: Request, res: Response) => {
-  res.send('OK');
+server.get('*', (_req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
 });
 
 server.listen(PORT, '127.0.0.1', () => {

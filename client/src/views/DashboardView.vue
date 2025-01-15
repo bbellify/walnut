@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, computed, type Ref } from "vue"
-import { mockBlocks } from "../util/mockData"
 import { useSSE } from "../util/useSSE"
 import {
   state,
@@ -107,7 +106,6 @@ export default defineComponent({
       summary,
       nextBlock,
       difficulty,
-      mockBlocks,
       latestBlocks,
       systemStatus,
       STREAM,

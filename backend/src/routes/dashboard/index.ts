@@ -106,7 +106,7 @@ setInterval(async () => {
       timestamp: new Date().toISOString()
     }
   });
-}, 10000); // 10 seconds (helpful for dev, make less frequent eventually)
+}, 60000); // 1 min
 
 router.get('/fees', async (_req: Request, res: Response) => {
   try {

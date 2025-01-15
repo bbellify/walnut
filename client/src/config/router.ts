@@ -4,18 +4,17 @@ import { createWebHistory, createRouter, useRoute, type RouteLocationNormalized 
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: "/", redirect: "/dashboard" },
-    { path: "/index.html", redirect: "/dashboard" },
     {
       path: "/dashboard",
-      name: "/dashboard",
+      name: "dashboard",
       component: () => import("../views/DashboardView.vue")
     },
     { path: "/wallet", name: "wallet", component: () => import("../views/WalletsView.vue") },
     // Will need lots of explorer subroutes, like tx or block, etc
     { path: "/explorer", name: "explorer", component: () => import("../views/ExplorerView.vue") },
     { path: "/settings", name: "settings", component: () => import("../views/SettingsView.vue") },
-    { path: "/uhoh", name: "uhoh", component: () => import("../views/UhOhView.vue") }
+    { path: "/uhoh", name: "uhoh", component: () => import("../views/UhOhView.vue") },
+    { path: "/:catchAll(.*)", redirect: "/dashboard" }
   ]
 })
 
