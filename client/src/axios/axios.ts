@@ -27,7 +27,7 @@ class ApiService {
 
   constructor() {
     const config = {
-      baseURL: API_URL,
+      baseURL: API_URL ?? "",
       timeout: 10000,
       headers: {
         "Content-Type": "application/json"

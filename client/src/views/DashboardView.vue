@@ -48,7 +48,7 @@ export default defineComponent({
     DashboardSection
   },
   setup() {
-    const { subscribe } = useSSE(API_URL + DASHBOARD + STREAM)
+    const { subscribe } = useSSE(API_URL ?? "" + DASHBOARD + STREAM)
     const summary: Ref<DashboardSummary> = computed(() => state.state.dashboard.summary)
     const price: Ref<DashboardPrice> = computed(() => state.state.dashboard.price)
     const systemStatus: Ref<DashboardSystemStatus> = computed(
