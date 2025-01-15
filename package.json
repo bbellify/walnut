@@ -1,10 +1,11 @@
 {
   "scripts": {
-    "start:backend": "cd backend && npm start",
-    "start:frontend": "cd frontend && npm run serve",
-    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
-  },
-  "devDependencies": {
-    "concurrently": "^6.0.0"
+    "dev:backend": "cd ./backend && npm run dev",
+    "dev:client": "cd ./client && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:client\"",
+    "build": "npm run build:client && npm run build:backend && npm run start",
+    "build:backend": "cd ./backend && npm run build",
+    "build:client": "cd ./client && npm run build",
+    "start": "cd ./backend && npm run start"
   }
 }
