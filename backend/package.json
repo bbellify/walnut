@@ -1,0 +1,47 @@
+{
+  "name": "walnut-api",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "lint": "eslint",
+    "fresh": "rm -f src/db/db.db && npm run dev"
+  },
+  "author": "Brian Bellinger",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bitcoinjs-lib": "^6.1.7",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-sse": "^0.5.3",
+    "node-fetch": "^3.3.2",
+    "systeminformation": "^5.25.9",
+    "zeromq": "^6.3.0"
+  },
+  "optionalDependencies": {
+    "osx-temperature-sensor": "^1.0.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/express-sse": "^0.5.0",
+    "@types/node": "^20.14.10",
+    "@types/node-os-utils": "^1.3.4",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.0"
+  }
+}

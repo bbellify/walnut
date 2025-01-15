@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+  --background-gray: #f5f6f4;
+  --background-black: #1a1a1a;
+  --section-gray: #242424;
+  --text-white: rgba(255, 255, 255, 0.87);
+  --text-gray: rgba(235, 235, 235, 0.6);
+  --text-update-green: #5ba352;
+  --section-border-gray: rgba(84, 84, 84, 0.48);
+  --section-border-green: #4c8844;
+}
+/* // https://coolors.co/0c1d0c-31572c-f5f6f4-edcbb1-b7245c */
+
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 1.4rem;
+  margin: 0 5rem;
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--background-black);
+}
+
+.title-and-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.8rem;
+  padding: 2rem 0;
+  color: var(--text-white);
+  letter-spacing: 0.5rem;
+
+  h1 {
+    animation: fadeIn 1s;
+  }
+}
+
+.center {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* I don't want it to be centered necessarily, feels too low */
+  padding-bottom: 20rem;
+}
+
+a {
+  text-decoration: none;
+  color: #060e06;
+}
+
+.container {
+  max-width: 800px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+/* tbd if this is global style or not */
+button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 1rem;
+}
+button:hover {
+  background-color: var(--background-gray);
+}
+
+button.ion-button {
+  padding: 0.5rem;
+  display: flex;
+  background-color: transparent;
+}
+
+ion-icon {
+  color: black;
+  font-size: 2.2rem;
+}
+
+.fade {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
