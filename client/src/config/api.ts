@@ -51,8 +51,10 @@ export default class ApiService {
   public async get<T>(url: string, params?: any): Promise<ApiResponse<T>> {
     const response = await this.axiosInstance.get<ApiResponse<T>>(url, { params })
     if (response.status !== 200) {
+      console.log(`${url} request failed, errors: ${response.data.errors}`)
       throw new Error(response.data.message || "API request failed")
     }
+    console.log(`${response.data.type} request successful`)
     return response.data
   }
 

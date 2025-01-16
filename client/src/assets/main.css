@@ -89,14 +89,33 @@ ion-icon {
 }
 
 .fade {
-  animation: fadeIn 1s;
+  animation: fade-animation 1s;
 }
 
-@keyframes fadeIn {
+@keyframes fade-animation {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse-animation 3s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    opacity: 1;
+    transform: scale(-1.05, 1.05);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(-1, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(-1.05, 1.05);
   }
 }

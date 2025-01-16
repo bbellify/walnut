@@ -1,6 +1,6 @@
 <template>
   <div v-if="showLanding" class="landing center">
-    <WalnutSvg :size="WalnutSvgSizes.Large" :strokeWidth="'8'" />
+    <WalnutSvg :size="WalnutSvgSizes.Large" :strokeWidth="'8'" class="pulse" />
   </div>
   <div v-else>
     <div class="title-and-nav">
@@ -35,7 +35,6 @@ export default defineComponent({
     onMounted(async () => {
       dashboardApi.value.getAll().then((res) => {
         res.forEach((data: ApiResponse<unknown>) => state.updateDashboard(data))
-
         showLanding.value = false
       })
     })

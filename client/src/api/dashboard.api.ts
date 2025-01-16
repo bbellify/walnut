@@ -35,13 +35,8 @@ class DashboardApi extends ApiService {
         results.forEach((res) => {
           if (res.status === "fulfilled") {
             if (res.value.status === 200) {
-              console.log(`${res.value.type} request successful`)
               data.push(res.value as ApiResponse<T>)
-            } else {
-              console.log(`${res.value.type} request failed, error: ${res.value?.errors}`)
             }
-          } else {
-            console.log(`request failed with unknown error: ${res}`)
           }
         })
       })

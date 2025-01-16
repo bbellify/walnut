@@ -59,7 +59,6 @@ export default defineComponent({
 
       dashboardApi.value.get(DASHBOARD + url).then((res) => {
         if (res.status === 200) {
-          console.log(`${res.type} request successful`)
           state.updateDashboard(res)
         } else {
           // need a little jiggle animation for failed request
@@ -155,7 +154,7 @@ section {
   }
 
   thead {
-    border-bottom: 1px solid var(--section-border-gray);
+    border-bottom: 2px solid var(--section-border-gray);
   }
   tr {
     border-top: 1px solid var(--section-border-gray);
@@ -168,23 +167,21 @@ section {
     }
   }
   td {
+    letter-spacing: 0.1rem;
     border-collapse: collapse;
-    padding: 1rem 0.5rem;
+    padding: 1rem;
     text-align: center;
-
-    /* border-left: 1px solid blue; */
-    /* border-right: 1px solid blue; */
-    /* &:last-child {
-      border-right: none;
-    }
-    &:first-child {
-      border-left: none;
-    } */
+    font-weight: 100;
   }
 
+  /* still not sure if I want every other table row formatting */
+  /* tbody tr:nth-child(odd) {
+    background-color: #2a2a2a;
+  } */
+
   thead > tr > td {
-    /* background-color: yellow; */
-    font-weight: bold;
+    font-weight: 800;
+    letter-spacing: 0.2rem;
   }
 }
 
