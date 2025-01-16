@@ -1,16 +1,16 @@
 import { reactive } from "vue"
-import { type ApiResponse } from "../axios/axios"
+import { DashboardTypes, type ApiResponse } from "../config/api"
 
 export interface DashboardState {
-  summary: DashboardSummary
-  price: DashboardPrice
-  systemStatus: DashboardSystemStatus
-  mining: DashboardMining
-  difficulty: DashboardDifficulty
-  mempool: DashboardMempool
-  fees: DashboardFees
-  nextblock: DashboardNextBlock
-  latestblocks: LatestBlock[]
+  [DashboardTypes.Summary]: DashboardSummary
+  [DashboardTypes.Price]: DashboardPrice
+  [DashboardTypes.SystemStatus]: DashboardSystemStatus
+  [DashboardTypes.Mining]: DashboardMining
+  [DashboardTypes.Difficulty]: DashboardDifficulty
+  [DashboardTypes.Mempool]: DashboardMempool
+  [DashboardTypes.Fees]: DashboardFees
+  [DashboardTypes.Nextblock]: DashboardNextBlock
+  [DashboardTypes.Latestblocks]: LatestBlock[]
 }
 export interface DashboardSummary {
   blockCount: string
@@ -90,7 +90,7 @@ export interface GlobalState {
 }
 
 export interface SSEUpdate {
-  type: keyof DashboardState
+  type: DashboardTypes
   data: any
   timestamp: string
 }
@@ -101,51 +101,51 @@ export class State {
   constructor() {
     this.state = {
       dashboard: {
-        summary: {
+        [DashboardTypes.Summary]: {
           blockCount: "",
           connectionsOutbound: "",
           connectionsInbound: "",
           syncStatus: "",
           blockchainSize: ""
         },
-        price: {
+        [DashboardTypes.Price]: {
           price: "",
           marketCap: "",
           ath: "",
           declineFromAth: "",
           athDate: ""
         },
-        systemStatus: {
+        [DashboardTypes.SystemStatus]: {
           cpuUsage: "",
           memoryUsage: "",
           temperature: "",
           uptime: ""
         },
-        mining: {
+        [DashboardTypes.Mining]: {
           coins: "",
           blockSubsidy: "",
           blocksUntilHalving: "",
           halvingEstimate: "",
           networkHashRate: ""
         },
-        difficulty: {
+        [DashboardTypes.Difficulty]: {
           difficulty: "",
           blocksToRetarget: "",
           retargetDate: "",
           estimatedAdjustment: ""
         },
-        mempool: {
+        [DashboardTypes.Mempool]: {
           numberOfTxs: "",
           minimumFee: "",
           blocksToClear: ""
         },
-        fees: {
+        [DashboardTypes.Fees]: {
           immediate: "",
           hour: "",
           day: "",
           week: ""
         },
-        nextblock: {
+        [DashboardTypes.Nextblock]: {
           transactions: "",
           output: "",
           reward: "",
@@ -153,7 +153,7 @@ export class State {
           medianFee: ""
         },
         // not sure I really want 10 empty blocks here
-        latestblocks: [
+        [DashboardTypes.Latestblocks]: [
           {
             height: "",
             time: "",
@@ -280,7 +280,7 @@ export class State {
   }
 
   public updateDashboard<T>(update: SSEUpdate | ApiResponse<T>) {
-    Object.assign(state.state.dashboard[update.type], { ...update.data })
+    Object.assign(this.state.dashboard[update.type], { ...update.data })
   }
 
   public updateState(path: string, newState: any) {

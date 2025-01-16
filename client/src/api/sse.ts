@@ -1,3 +1,5 @@
+import { ref, onMounted, onUnmounted } from "vue"
+
 export class SSEService {
   private eventSource: EventSource | null = null
   private listeners: Map<string, ((data: any) => void)[]> = new Map()
@@ -47,5 +49,25 @@ export class SSEService {
     if (callbacks) {
       callbacks.forEach((cb) => cb(data))
     }
+  }
+}
+
+export function useSSE(url: string) {
+  const sseService = ref(new SSEService(url))
+  const isConnected = ref(false)
+
+  onMounted(() => {
+    sseService.value.connect()
+    isConnected.value = true
+  })
+
+  onUnmounted(() => {
+    sseService.value.disconnect()
+    isConnected.value = false
+  })
+
+  return {
+    subscribe: sseService.value.subscribe.bind(sseService.value),
+    isConnected
   }
 }

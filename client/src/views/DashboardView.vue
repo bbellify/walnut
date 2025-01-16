@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, computed, type Ref } from "vue"
-import { useSSE } from "../util/useSSE"
+import { useSSE } from "../api/sse"
 import {
   state,
   type DashboardDifficulty,
@@ -28,8 +28,8 @@ import {
   type LatestBlock
 } from "../model/state"
 import DashboardSection from "../components/dashboard/DashboardSection.vue"
-import api, {
-  API_URL,
+import { API_URL } from "../config/api"
+import {
   DASHBOARD,
   STREAM,
   SUMMARY,
@@ -41,7 +41,7 @@ import api, {
   DIFFICULTY,
   NEXTBLOCK,
   LATESTBLOCKS
-} from "../axios/axios"
+} from "../api/dashboard.api"
 
 export default defineComponent({
   components: {
@@ -61,41 +61,12 @@ export default defineComponent({
     const nextBlock: Ref<DashboardNextBlock> = computed(() => state.state.dashboard.nextblock)
     const latestBlocks: Ref<LatestBlock[]> = computed(() => state.state.dashboard.latestblocks)
 
-    onMounted(async () => {
-      try {
-        await Promise.allSettled([
-          api.get(DASHBOARD + SUMMARY),
-          api.get(DASHBOARD + PRICE),
-          api.get(DASHBOARD + STATUS),
-          api.get(DASHBOARD + FEES),
-          api.get(DASHBOARD + MINING),
-          api.get(DASHBOARD + MEMPOOL),
-          api.get(DASHBOARD + DIFFICULTY),
-          api.get(DASHBOARD + NEXTBLOCK),
-          api.get(DASHBOARD + LATESTBLOCKS)
-        ]).then((results) => {
-          results.forEach((res) => {
-            if (res.status === "fulfilled") {
-              if (res.value.status === 200) {
-                console.log(`${res.value.type} request successful`)
-                state.updateDashboard(res.value)
-              } else {
-                console.log(`${res.value.type} request failed, error: ${res.value?.errors}`)
-              }
-            } else {
-              console.log(`request failed with unknown error: ${res}`)
-            }
-          })
-        })
-
-        subscribe("update", (update: any) => {
-          if (update.update) {
-            state.updateDashboard(update.update)
-          }
-        })
-      } catch (error) {
-        console.error("Failed to fetch initial data:", error)
-      }
+    onMounted(() => {
+      subscribe("update", (update: any) => {
+        if (update.update) {
+          state.updateDashboard(update.update)
+        }
+      })
     })
 
     return {

@@ -1,28 +1,29 @@
 import axios, { type AxiosInstance, type AxiosResponse, type AxiosError } from "axios"
-import { type DashboardState } from "../model/state"
 
 export const API_URL: string = import.meta.env.VITE_API_URL
-export const DASHBOARD = "/dashboard"
-export const STREAM = "/stream"
-export const SUMMARY = "/summary"
-export const PRICE = "/price"
-export const STATUS = "/status"
-export const FEES = "/fees"
-export const MINING = "/mining"
-export const MEMPOOL = "/mempool"
-export const DIFFICULTY = "/difficulty"
-export const NEXTBLOCK = "/nextblock"
-export const LATESTBLOCKS = "/latestblocks"
 
 export interface ApiResponse<T> {
   status: number
   message: string
   data: T
-  type: keyof DashboardState
+  type: DashboardTypes
   errors?: Array<{ field: string; message: string }>
 }
 
-class ApiService {
+export enum DashboardTypes {
+  // corresponds to each Dashboard section
+  Summary = "summary",
+  Price = "price",
+  SystemStatus = "systemStatus",
+  Mining = "mining",
+  Difficulty = "difficulty",
+  Mempool = "mempool",
+  Fees = "fees",
+  Nextblock = "nextblock",
+  Latestblocks = "latestblocks"
+}
+
+export default class ApiService {
   private axiosInstance: AxiosInstance
 
   constructor() {
@@ -59,5 +60,3 @@ class ApiService {
     console.error("API Error:", error.message)
   }
 }
-
-export default new ApiService()

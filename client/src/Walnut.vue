@@ -17,6 +17,9 @@ import { RouterView, useRoute } from "vue-router"
 import WalnutSvg, { WalnutSvgSizes } from "./components/shared/WalnutSvg.vue"
 import DesktopNav from "./components/nav/DesktopNav.vue"
 import Case from "case"
+import { type ApiResponse } from "./config/api"
+import dashboardApi from "./api/dashboard.api"
+import { state } from "./model/state"
 
 export default defineComponent({
   components: {
@@ -29,10 +32,12 @@ export default defineComponent({
     const title = computed(() => Case.capital(route.path.slice(1)))
     const showLanding: Ref<boolean> = ref(true)
 
-    onMounted(() => {
-      setTimeout(() => {
+    onMounted(async () => {
+      dashboardApi.value.getAll().then((res) => {
+        res.forEach((data: ApiResponse<unknown>) => state.updateDashboard(data))
+
         showLanding.value = false
-      }, 2000)
+      })
     })
 
     return {

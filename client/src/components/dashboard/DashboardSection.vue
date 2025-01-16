@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, ref, type PropType, type Ref } from "vue"
 import Case from "case"
-import api, { DASHBOARD } from "../../axios/axios"
+import dashboardApi, { DASHBOARD } from "../../api/dashboard.api"
 import { state } from "../../model/state"
 
 export type DashboardSectionData = {}
@@ -57,7 +57,7 @@ export default defineComponent({
         refresh.value = false
       }, 500)
 
-      api.get(DASHBOARD + url).then((res) => {
+      dashboardApi.value.get(DASHBOARD + url).then((res) => {
         if (res.status === 200) {
           console.log(`${res.type} request successful`)
           state.updateDashboard(res)
