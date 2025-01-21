@@ -1,6 +1,8 @@
 import { ref, onMounted, onUnmounted } from "vue"
+import { API_URL } from "../config/api"
+import { DASHBOARD, STREAM } from "./dashboard.api"
 
-export class SSEService {
+class SSEService {
   private eventSource: EventSource | null = null
   private listeners: Map<string, ((data: any) => void)[]> = new Map()
 
@@ -52,22 +54,29 @@ export class SSEService {
   }
 }
 
-export function useSSE(url: string) {
-  const sseService = ref(new SSEService(url))
+const dashboardSSE = new SSEService((API_URL ?? "") + DASHBOARD + STREAM)
+let dashboardSSECount = 0
+
+export function useDashboardSSE() {
   const isConnected = ref(false)
 
   onMounted(() => {
-    sseService.value.connect()
-    isConnected.value = true
+    if (dashboardSSECount === 0) {
+      dashboardSSE.connect()
+      isConnected.value = true
+    }
+    dashboardSSECount++
   })
 
   onUnmounted(() => {
-    sseService.value.disconnect()
-    isConnected.value = false
+    dashboardSSECount--
+    if (dashboardSSECount === 0) {
+      dashboardSSE.disconnect()
+    }
   })
 
   return {
-    subscribe: sseService.value.subscribe.bind(sseService.value),
+    subscribe: dashboardSSE.subscribe.bind(dashboardSSE),
     isConnected
   }
 }
