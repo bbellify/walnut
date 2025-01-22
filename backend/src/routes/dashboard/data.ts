@@ -198,7 +198,7 @@ function toFeeData(fees: number[]) {
 
 function convertToSatPerByte(feeRateInBTCPerKB: number) {
   // 1 BTC = 100,000,000 satoshis, 1 kB = 1024 bytes
-  return Math.ceil((feeRateInBTCPerKB * 100000000) / 1024);
+  return Math.round((feeRateInBTCPerKB * 100000000) / 1024);
 }
 
 //
@@ -360,8 +360,9 @@ export async function getDifficultyData() {
   newDifficulty = Number(newDifficulty.toFixed(8));
 
   const percentageChange =
-    (newDifficulty - lastRetargetBlock.difficulty) /
-    (lastRetargetBlock.difficulty * 100);
+    ((newDifficulty - lastRetargetBlock.difficulty) /
+      lastRetargetBlock.difficulty) *
+    100;
 
   return toDifficultyData(
     difficulty,
