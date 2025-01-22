@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) in $props.tableData.slice(0, -4)" :key="index">
+        <tr v-for="(row, index) in $props.tableData" :key="index">
           <td v-for="(entry, index) in Object.entries(row)" :key="index">
             {{ entry[1] }}
           </td>

@@ -503,7 +503,7 @@ function convertSatoshisToBTC(sats: number): number {
 //
 const MAX_BLOCK_WEIGHT = 4000000;
 export async function getLatestBlocksData() {
-  const blocksToGet = 11;
+  const blocksToGet = 7;
   let height = await RPCClient.getblockcount();
   const blocks = [];
 
