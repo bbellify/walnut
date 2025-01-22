@@ -511,34 +511,49 @@ export async function getLatestBlocksData() {
     blocks.push(await RPCClient.getblock(await RPCClient.getblockhash(height)));
     height--;
   }
-  return toLatestBlocksData(blocks);
+  return toLatestBlocksData(blocks).slice(0, -1);
 }
 
 function toLatestBlocksData(blocks: Block[]) {
-  return blocks.map((blk) => {
+  let now = new Date().getTime() / 1000;
+  return blocks.map((blk, i) => {
     // blk.tx.forEach((t) => {
     // getrawtransaction on every one? yikes
     // const tx = Transaction.fromHex(t);
     // tx.outs.forEach((o) => (totalOut += o.value));
     // });
+    const nextBlockTime = blocks[i + 1]?.time;
+    const age = secondsToTime(now - blk.time);
+    let ttm;
+    if (nextBlockTime) {
+      ttm = secondsToHoursMinutesSeconds(blk.time - nextBlockTime);
+    }
+    now = blk.time;
+
     return {
       height: blk.height,
       time: new Date(blk.time * 1000).toLocaleTimeString(),
+      age: age,
+      ttm: ttm,
       txs: blk.nTx.toLocaleString(),
-      percentFull: ((blk.weight / MAX_BLOCK_WEIGHT) * 100).toFixed(2) + '%',
-      volume: 'volume',
-      age: 'age h m',
-      ttm: 'ttm',
-      miner: 'Miner',
-      feeRates: '1 2 3',
-      fees: 'amount BTC'
-
+      percentFull: ((blk.weight / MAX_BLOCK_WEIGHT) * 100).toFixed(2) + '%'
       // volume: (+convertSatoshisToBTC(totalOut).toFixed(2)).toLocaleString(),
-      // age
-      // ttm
-      // miner
-      // feeRates
-      // fees
+      // miner: 'Miner',
+      // feeRates: '1 2 3',
+      // fees: 'amount BTC'
     };
   });
+}
+
+export function secondsToHoursMinutesSeconds(seconds: number): string {
+  seconds = Math.floor(seconds);
+  const hours = Math.floor(seconds / 3600);
+  seconds -= hours * 3600;
+  const minutes = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, '0');
+  seconds -= +minutes * 60;
+
+  const remainingSeconds = seconds.toString().padStart(2, '0');
+  return `${hours}:${minutes}:${remainingSeconds}`;
 }
