@@ -152,56 +152,8 @@ export class State {
           totalFees: "",
           medianFee: ""
         },
-        // not sure I really want 10 empty blocks here
+        // not sure I really want these empty blocks here
         [DashboardTypes.Latestblocks]: [
-          {
-            height: "",
-            time: "",
-            age: "",
-            ttm: "",
-            miner: "",
-            txs: "",
-            volume: "",
-            feeRates: "",
-            fees: "",
-            full: ""
-          },
-          {
-            height: "",
-            time: "",
-            age: "",
-            ttm: "",
-            miner: "",
-            txs: "",
-            volume: "",
-            feeRates: "",
-            fees: "",
-            full: ""
-          },
-          {
-            height: "",
-            time: "",
-            age: "",
-            ttm: "",
-            miner: "",
-            txs: "",
-            volume: "",
-            feeRates: "",
-            fees: "",
-            full: ""
-          },
-          {
-            height: "",
-            time: "",
-            age: "",
-            ttm: "",
-            miner: "",
-            txs: "",
-            volume: "",
-            feeRates: "",
-            fees: "",
-            full: ""
-          },
           {
             height: "",
             time: "",
