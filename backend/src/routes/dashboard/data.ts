@@ -352,7 +352,7 @@ export async function getDifficultyData() {
     maxAdjustmentFactor,
     Math.max(
       1 / maxAdjustmentFactor,
-      expectedAdjustmentTime / actualReadjustmentTime
+      actualReadjustmentTime / expectedAdjustmentTime
     )
   );
 
