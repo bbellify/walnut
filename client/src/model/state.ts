@@ -81,7 +81,7 @@ export interface LatestBlock {
   volume: string
   feeRates: string
   fees: string
-  percentFull: string
+  full: string
 }
 
 export interface GlobalState {
@@ -164,7 +164,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -176,7 +176,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -188,7 +188,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -200,7 +200,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -212,7 +212,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -224,7 +224,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -236,7 +236,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -248,7 +248,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -260,7 +260,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           },
           {
             height: "",
@@ -272,7 +272,7 @@ export class State {
             volume: "",
             feeRates: "",
             fees: "",
-            percentFull: ""
+            full: ""
           }
         ]
       }

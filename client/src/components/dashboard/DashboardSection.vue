@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) in $props.tableData" :key="index">
+        <tr v-for="(row, index) in $props.tableData.slice(0, -4)" :key="index">
           <td v-for="(entry, index) in Object.entries(row)" :key="index">
             {{ entry[1] }}
           </td>
@@ -127,7 +127,7 @@ section {
     flex-shrink: 1;
     flex-basis: 0;
     min-width: fit-content;
-    /* max-width: 40rem; */
+    max-width: 50rem;
 
     div > div {
       display: flex;
@@ -169,9 +169,15 @@ section {
   td {
     letter-spacing: 0.1rem;
     border-collapse: collapse;
-    padding: 1rem;
+    padding: 1rem 3rem;
     text-align: center;
     font-weight: 100;
+  }
+  td:first-child {
+    padding-left: 1rem;
+  }
+  td:last-child {
+    padding-right: 1rem;
   }
 
   /* still not sure if I want every other table row formatting */
