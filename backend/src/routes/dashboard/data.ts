@@ -503,7 +503,7 @@ function convertSatoshisToBTC(sats: number): number {
 //
 const MAX_BLOCK_WEIGHT = 4000000;
 export async function getLatestBlocksData() {
-  const blocksToGet = 10;
+  const blocksToGet = 11;
   let height = await RPCClient.getblockcount();
   const blocks = [];
 
@@ -515,7 +515,7 @@ export async function getLatestBlocksData() {
 }
 
 function toLatestBlocksData(blocks: Block[]) {
-  let now = new Date().getTime() / 1000;
+  const now = new Date().getTime() / 1000;
   return blocks.map((blk, i) => {
     // blk.tx.forEach((t) => {
     // getrawtransaction on every one? yikes
@@ -528,7 +528,6 @@ function toLatestBlocksData(blocks: Block[]) {
     if (nextBlockTime) {
       ttm = secondsToHoursMinutesSeconds(blk.time - nextBlockTime);
     }
-    now = blk.time;
 
     return {
       height: blk.height,
@@ -536,7 +535,7 @@ function toLatestBlocksData(blocks: Block[]) {
       age: age,
       ttm: ttm,
       txs: blk.nTx.toLocaleString(),
-      percentFull: ((blk.weight / MAX_BLOCK_WEIGHT) * 100).toFixed(2) + '%'
+      full: ((blk.weight / MAX_BLOCK_WEIGHT) * 100).toFixed(2) + '%'
       // volume: (+convertSatoshisToBTC(totalOut).toFixed(2)).toLocaleString(),
       // miner: 'Miner',
       // feeRates: '1 2 3',
@@ -549,11 +548,13 @@ export function secondsToHoursMinutesSeconds(seconds: number): string {
   seconds = Math.floor(seconds);
   const hours = Math.floor(seconds / 3600);
   seconds -= hours * 3600;
-  const minutes = Math.floor(seconds / 60)
-    .toString()
-    .padStart(2, '0');
+  const minutes = Math.floor(seconds / 60);
   seconds -= +minutes * 60;
 
   const remainingSeconds = seconds.toString().padStart(2, '0');
-  return `${hours}:${minutes}:${remainingSeconds}`;
+  let time = '';
+  if (hours > 0) time += `${hours}:`;
+  time += `${minutes.toString().padStart(2, '0')}:`;
+  time += `${remainingSeconds}`;
+  return time;
 }
