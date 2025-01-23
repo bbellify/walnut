@@ -330,7 +330,6 @@ function toMempool(mempool: MempoolInfo, estimatedBlocks: number) {
 //
 // Difficulty section
 //
-const expectedAdjustmentTime = 1209600;
 const maxAdjustmentFactor = 4;
 const blocksPerRetarget = 2016;
 const secondsPerBlock = 600;
@@ -346,23 +345,18 @@ export async function getDifficultyData() {
     await RPCClient.getblockhash(lastRetargetHeight)
   );
 
-  const actualReadjustmentTime = currentBlock.time - lastRetargetBlock.time;
+  let actualTimespan = currentBlock.time - lastRetargetBlock.time;
+  const blocksSinceLastRetarget = blockCount - lastRetargetBlock.height;
+  const expectedTimespan = blocksSinceLastRetarget * secondsPerBlock;
+  if (actualTimespan < expectedTimespan / maxAdjustmentFactor) {
+    actualTimespan = expectedTimespan / maxAdjustmentFactor;
+  }
+  if (actualTimespan > expectedTimespan * maxAdjustmentFactor) {
+    actualTimespan = expectedTimespan * maxAdjustmentFactor;
+  }
 
-  const adjustmentFactor = Math.min(
-    maxAdjustmentFactor,
-    Math.max(
-      1 / maxAdjustmentFactor,
-      actualReadjustmentTime / expectedAdjustmentTime
-    )
-  );
-
-  let newDifficulty = lastRetargetBlock.difficulty * adjustmentFactor;
-  newDifficulty = Number(newDifficulty.toFixed(8));
-
-  const percentageChange =
-    ((newDifficulty - lastRetargetBlock.difficulty) /
-      lastRetargetBlock.difficulty) *
-    100;
+  const difference = expectedTimespan - actualTimespan;
+  const percentageChange = (difference / expectedTimespan) * 100;
 
   return toDifficultyData(
     difficulty,
