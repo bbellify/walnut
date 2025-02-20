@@ -23,8 +23,10 @@
       </thead>
       <tbody>
         <tr v-for="(row, index) in $props.tableData" :key="index">
-          <td v-for="(entry, index) in Object.entries(row)" :key="index">
-            {{ entry[1] }}
+          <td v-highlight-change v-for="(entry, index) in Object.entries(row)" :key="index">
+            <span v-highlight-change>
+              {{ entry[1] }}
+            </span>
           </td>
         </tr>
       </tbody>
