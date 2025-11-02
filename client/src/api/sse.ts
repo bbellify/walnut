@@ -5,6 +5,9 @@ import { DASHBOARD, STREAM } from "./dashboard.api"
 class SSEService {
   private eventSource: EventSource | null = null
   private listeners: Map<string, ((data: any) => void)[]> = new Map()
+  private retryCount = 0
+  private readonly baseDelay = 1000
+  private readonly maxRetries = 10
 
   constructor(private url: string) {}
 
@@ -20,14 +23,20 @@ class SSEService {
       )
     }
 
-    this.eventSource.onerror = () => {
-      console.error("EventSource failed.")
+    this.eventSource.onerror = (err) => {
+      console.error("EventSource failed:", err)
       this.eventSource?.close()
       this.eventSource = null
+
+      // Exponential backoff retry
+      const delay = Math.min(this.baseDelay * Math.pow(2, this.retryCount), 30000)
+      this.retryCount = Math.min(this.retryCount + 1, this.maxRetries)
+      setTimeout(() => this.connect(), delay)
     }
 
     this.eventSource.onopen = () => {
       console.log("SSE opened")
+      this.retryCount = 0 // Reset retry count on successful connection
     }
   }
 
