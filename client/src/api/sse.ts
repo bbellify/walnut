@@ -3,7 +3,7 @@ import { API_URL } from "../config/api"
 import { DASHBOARD, STREAM } from "./dashboard.api"
 
 class SSEService {
-  private eventSource: EventSource | null = null
+  eventSource: EventSource | null = null
   private listeners: Map<string, ((data: any) => void)[]> = new Map()
   private retryCount = 0
   private readonly baseDelay = 1000
@@ -69,19 +69,49 @@ let dashboardSSECount = 0
 export function useDashboardSSE() {
   const isConnected = ref(false)
 
+  const updateConnectionStatus = () => {
+    isConnected.value =
+      !!dashboardSSE.eventSource && dashboardSSE.eventSource.readyState === EventSource.OPEN
+  }
+
+  const handleVisibilityChange = () => {
+    if (!document.hidden) {
+      console.log("Tab visible after possible sleep/wake")
+      if (!dashboardSSE.eventSource || dashboardSSE.eventSource.readyState === EventSource.CLOSED) {
+        dashboardSSE.connect()
+        updateConnectionStatus()
+      }
+    }
+  }
+
+  const handleOnline = () => {
+    console.log("Network online after possible sleep/wake")
+    if (!dashboardSSE.eventSource || dashboardSSE.eventSource.readyState === EventSource.CLOSED) {
+      dashboardSSE.connect()
+      updateConnectionStatus()
+    }
+  }
+
   onMounted(() => {
     if (dashboardSSECount === 0) {
       dashboardSSE.connect()
-      isConnected.value = true
+      updateConnectionStatus()
     }
     dashboardSSECount++
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("online", handleOnline)
   })
 
   onUnmounted(() => {
     dashboardSSECount--
     if (dashboardSSECount === 0) {
       dashboardSSE.disconnect()
+      updateConnectionStatus()
     }
+
+    document.removeEventListener("visibilitychange", handleVisibilityChange)
+    window.removeEventListener("online", handleOnline)
   })
 
   return {
