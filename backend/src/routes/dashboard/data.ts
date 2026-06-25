@@ -518,7 +518,10 @@ function toLatestBlocksData(blocks: Block[]) {
     // tx.outs.forEach((o) => (totalOut += o.value));
     // });
     const nextBlockTime = blocks[i + 1]?.time;
-    const age = secondsToTime(now - blk.time);
+    // Block timestamps are miner-set and can be slightly ahead of the
+    // server clock, which would make (now - blk.time) negative. secondsToTime
+    // mishandles negatives (e.g. -300 -> "23h55m"), so clamp the age to >= 0.
+    const age = secondsToTime(Math.max(0, now - blk.time));
     let ttm;
     if (nextBlockTime) {
       ttm = secondsToHoursMinutesSeconds(blk.time - nextBlockTime);
